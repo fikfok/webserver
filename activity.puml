@@ -1,0 +1,502 @@
+https://real-world-plantuml.com/?type=activity
+
+@startuml
+(*)  --> "check input"
+If "input is verbose" then
+--> [Yes] "turn on verbosity"
+--> "run command"
+else
+--> "run command"
+Endif
+-->(*)
+@enduml
+
+
+@startuml
+|Swimlane1|
+start
+:foo1;
+|#AntiqueWhite|Swimlane2|
+:foo2;
+:foo3;
+|Swimlane1|
+:foo4;
+|Swimlane2|
+:foo5;
+stop
+@enduml
+
+@startuml
+|Swimlane1|
+start
+:OP1;
+|Swimlane2|
+while (Form Valid) is (no)
+:OP2;
+|Swimlane1|
+:Modify Details;
+endwhile (yes)
+|Swimlane2|
+:Add Detals to System;
+:OP3;
+:foo5;
+stop
+@enduml
+
+@startuml
+
+skinparam activity {
+    FontColor          white
+    AttributeFontColor white
+    FontSize           17
+    AttributeFontSize  15
+    AttributeFontname  Droid Sans Mono
+    BackgroundColor    #527BC6
+    BorderColor        black
+    ArrowColor         #222266
+}
+
+partition install {
+note right: <b>BOLD</b> actions are\nmethods calls
+(*) --> "add FFmpeg\nPPA repository"
+--> "upgrade system"
+--> "install FFmpeg, x264,\npython, GlusterFS client"
+if "ok" then
+    -right-> [No] "exit 1"
+    --> (*)
+else
+    --> [Yes] "install Celery, pyMongo"
+    if "ok" then
+        -left-> [No] "exit 2"
+        --> (*)
+    else
+        --> [Yes] "<b>CONFIG-CHANGED</b>"
+        --> (*)
+    endif
+endif
+}
+
+@enduml
+
+@startuml
+
+start
+ skinparam activityBackgroundColor #white
+:#84add6:ask user whether to proceed;
+
+if (control_flag == 1  ?) then(yes)
+   :#84add6:call shower
+----
+VOID VINCIA::shower() -- [[source1.html#cCVINCIAFshower link]];
+else(no)
+endif
+
+
+stop
+
+@enduml
+
+
+@startuml
+|Swimlane1|
+partition "Block A" {
+start;
+(A)
+    while(Still moving) is (Yes)
+        if (Foo) then
+            (B)
+            detach;
+        endif
+    endwhile
+    :Foobar;
+    stop;
+}
+|Swimlane2|
+partition "Block B" {
+    (B)
+    :Do Something;
+    if(Test) then
+        (C)
+        detach;
+    else
+        (A)
+        detach;
+    endif
+}
+
+@enduml
+
+
+@startuml
+|Swimlane1|
+start
+:Some activity;
+if (Test) then (yes)
+elseif (Other Test) then (yes)
+else (no)
+(A)
+detach
+endif
+:Some other activity;
+if (Test) then (yes)
+elseif (Other Test) then (yes)
+else (no)
+(A)
+detach
+endif
+partition foo {
+split
+:zip;
+split again
+(A)
+detach
+split again
+:bar;
+:Yet another activity;
+end split
+}
+end
+
+|Swimlane2|
+partition boo {
+(A)
+:Other activity;
+}
+@enduml
+
+
+@startuml
+:Ready;
+:next(o)|
+:Receiving;
+split
+ :nak(i)<
+ :ack(o)>
+split again
+ :ack(i)<
+ :next(o)
+ on several line|
+ :i := i + 1]
+ :ack(o)>
+split again
+ :err(i)<
+
+ :nak(o)>
+split again
+ :foo/
+split again
+ :i > 5}
+stop
+end split
+:finish;
+@enduml
+
+@startuml
+
+title Example Title\n
+|Class 1|
+start
+:ClickServlet.handleRequest();
+:new page;
+note left: asd
+if (Page.onSecurityCheck) then (true)
+  :Page.onInit();
+
+note right
+This note is on several
+//lines// and can
+contain <b>HTML</b>
+====
+* Calling the method ""foo()"" is prohibited
+end note
+
+  if (isForward?) then (no)
+	:Process controls;
+	if (continue processing?) then (no)
+	  stop
+	endif
+    fork
+'        |Class Page|
+        :"get params";
+
+'        |Class NewClass|
+        :callData();
+
+'        |Class Page|
+        :"calc params";
+        :"do get request params";
+
+    fork again
+        partition "class Foo" {
+            partition "class Bar" {
+                :get;
+                :get;
+            }
+
+        :"calc params";
+        :"do get request params";
+            partition "class Foo" {
+                fork
+                :get;
+                fork again
+                :get;
+                end fork
+            }
+        }
+    end fork
+'    |Class 1|
+'	if (isPost?) then (yes)
+'	  :Page.onPost();
+'	else (no)
+'	  :Page.onGet();
+'	endif
+	:Page.onRender();
+  endif
+else (false)
+endif
+
+if (do redirect?) then (yes)
+  :redirect process;
+else
+  if (do forward?) then (yes)
+	:Forward request;
+  else (no)
+	:Render page template;
+  endif
+endif
+
+stop
+
+
+@enduml
+
+@startuml
+start
+fork
+    :Activity A;
+    note:note on activity A
+fork again
+    :Activity B;
+    note:note on activity B
+    :Activity C;
+end fork
+note:note on fork
+stop
+@enduml
+
+@startuml
+class A {
+{static} int counter
++void {abstract} start(int timeout)
+}
+note right of A::counter
+  This member is annotated
+end note
+note right of A::start
+  This method is now explained in a UML note
+end note
+
+@enduml
+
+@startuml
+partition Conductor {
+  (*) --> "Climbs on Platform"
+  --> === S1 ===
+  --> Bows
+  --> "Another Bows"
+    partition Foo {
+      --> Foo
+    }
+}
+
+partition Audience #LightSkyBlue {
+  === S1 === --> Applauds
+}
+
+partition Conductor {
+  Bows --> === S2 ===
+  --> WavesArmes
+  Applauds --> === S2 ===
+}
+
+partition Orchestra #CCCCEE {
+  WavesArmes --> Introduction
+  --> "Play music"
+}
+
+@enduml
+
+@startuml
+start
+partition Initialization {
+	:read config file;
+	:init internal variable;
+}
+partition Running {
+	:wait for user interaction;
+	:print information;
+	partition Running1 {
+        :uuuu]
+        :kkkkkk;
+    }
+}
+
+stop
+@enduml
+
+@startuml
+
+start
+:ClickServlet.handleRequest();
+:new page;
+if (Page.onSecurityCheck) then (true)
+  :Page.onInit();
+  if (isForward?) then (no)
+	:Process controls;
+	if (continue processing?) then (no)
+	  stop
+	endif
+	split
+	    :order]
+    split again
+        :config]
+    end split
+    partition Func {
+        if (isPost?) then (yes)
+          :Page.onPost();
+        else (no)
+          :Page.onGet();
+        endif
+        :config]
+	}
+	:Page.onRender();
+  endif
+else (false)
+endif
+
+if (do redirect?) then (yes)
+  :redirect process;
+else
+  if (do forward?) then (yes)
+	:Forward request;
+  else (no)
+	:Render page template;
+  endif
+endif
+
+stop
+
+@enduml
+
+
+@startuml
+
+start
+:[[field_sync_field_status field_sync_field_status()]]
+----
+Update the field_config table to indicate that field types
+and storage types defined by enabled modules are active,
+and those defined by disabled modules are not active.;
+:$limit = variable_get('field_purge_batch_size', 10);
+note right
+Maximum number of deleted
+fields to purge in this batch.
+There is currently no way to set
+this variable from the browser.
+end note
+:[[field_purge_batch field_purge_batch($limit)]]
+----
+Delete up to $limit rows marked delete;
+stop
+
+@enduml
+
+@startuml
+
+header
+Drupal 7
+endheader
+
+title
+===Field Type Lifecycle
+
+A Drupal 7 field type is defined in a module by
+its implementation of hook_field_info().
+Each field type is in one of three states.
+endtitle
+
+[*] --> Disabled
+Disabled: The module defining this field type
+Disabled: is disabled.  Fields of this type cannot
+Disabled: be created or deleted.  The defining
+Disabled: hook_field_info() and hook_field_schema()
+Disabled: are not available to other modules.
+Disabled --> Enabled : Module enabled
+Enabled: The module defining this field type is
+Enabled: enabled and modules can create field
+Enabled: instances of this type but no such instances
+Enabled: are active now.  There may be instances
+Enabled: of this type marked 'deleted' in the
+Enabled: field_config_instance table of the DB.
+Enabled: Such deleted instances are eligible to
+Enabled: to be purged by a cron job.  See
+Enabled: field_create_instance(), field_cron().
+Enabled --> InUse : Fields of this type created
+InUse: The module defining the field type
+InUse: is locked to prevent disabling.
+InUse: The field_config table in the DB has
+InUse: a row for this field type.  Each instance
+InUse: has a row in the field_config_instance table.
+InUse: Other modules may create and delete instances
+InUse: of this field type.  See field_create_instance(),
+InUse: field_delete_instance().
+InUse --> Enabled: All fields of this type deleted
+Enabled --> Disabled: Module disabled
+Disabled  --> [*] : Module uninstalled
+@enduml
+
+
+@startuml
+(*) --> "Main start"
+--> "Preloader"
+--> "MenuState"
+if "button" then
+    --> [play] "StageSelectState"
+    --> [choose] "PlayerSelectState"
+    if "choose" then
+        --> [true] "StageSelectState"
+        if "choose" then
+    	    partition GameplayState {
+                --> [true] "GameplayState"
+         	    --> "Connect to server, ask to create a game instance"
+        	    --> "waiting for response"
+        	    if "has response" then
+        	        --> [true] "Server send back map info"
+	                --> "Create all views"
+            		--> "Game loop"
+	          		if "gameplay event received" then
+   	                    --> [true] "update game entities"
+                        --> "Game loop"
+         		    else
+         		        --> [false] "Game loop"
+         		    endif
+
+					if "mouse / keyboard / gamepad input received"
+					    --> Send input event to server
+						--> "Game loop"
+					endif
+				else
+				    -->[false] "waiting for response"
+				endif
+			}
+        else
+            --> [false] "PlayerSelectState"
+	    endif
+    else
+        --> [false] "MenuState"
+    endif
+	else
+        --> [option] "OptionState"
+		--> [back] "MenuState"
+	endif
+@enduml
