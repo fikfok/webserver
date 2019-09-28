@@ -3,8 +3,8 @@ from aiohttp import ClientSession
 from random import randrange
 
 
-# BASE_URL = 'http://localhost:2107/'
-BASE_URL = 'http://192.168.122.89/'
+BASE_URL = 'http://localhost:2107/'
+# BASE_URL = 'http://192.168.122.89/'
 CONCUR_REQ = 2
 
 async def get_order_data(order_id, semaphore):
@@ -31,4 +31,4 @@ def download_many(orders_list):
 
 
 if __name__ == '__main__':
-    download_many(range(100))
+    download_many(range(10))
